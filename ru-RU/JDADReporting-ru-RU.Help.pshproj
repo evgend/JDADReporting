@@ -1,0 +1,401 @@
+<?xml version="1.0"?>
+<ModuleObject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" fVersion="1.1" type="Script" mclass="Module" useSupports="false">
+  <Name>JDADReporting</Name>
+  <Version>1.0</Version>
+  <Description />
+  <HasManifest>true</HasManifest>
+  <OverridePostCount>false</OverridePostCount>
+  <FetchPostCount xsi:nil="true" />
+  <Cmdlets>
+    <CmdletObject verb="ConvertTo" noun="HTMLReport">
+      <Name>ConvertTo-HTMLReport</Name>
+      <GeneralHelp>
+        <Synopsis>Функция преобразует в html-страницу объекты от Get-ADGroupMembershipHistory, Get-ADGroupMembership</Synopsis>
+        <Description />
+        <Notes>Автор: Дубинский Евгений
+Версия: 1.0
+ДатаСоздания: 20.04.2015</Notes>
+        <InputType />
+        <InputUrl />
+        <InputTypeDescription />
+        <ReturnType />
+        <ReturnUrl />
+        <ReturnTypeDescription />
+      </GeneralHelp>
+      <ParamSets>
+        <CommandParameterSetInfo2 Name="__AllParameterSets" Params="InputObject Verbose Debug ErrorAction WarningAction ErrorVariable WarningVariable OutVariable OutBuffer" />
+      </ParamSets>
+      <Syntax>
+        <string>ConvertTo-HTMLReport [-InputObject] &lt;Object&gt;</string>
+      </Syntax>
+      <Parameters>
+        <ParameterDescription type="Object" varLen="false" required="true" dynamic="false" pipeRemaining="false" pipe="true" pipeProp="false" isPos="true" pos="0" globbing="false">
+          <Name>inboundProperty</Name>
+          <Attributes>
+            <string>System.Management.Automation.ParameterAttribute</string>
+          </Attributes>
+          <Aliases />
+          <Description />
+          <DefaultValue />
+        </ParameterDescription>
+        <ParameterDescription type="Object" varLen="false" required="true" dynamic="false" pipeRemaining="false" pipe="true" pipeProp="false" isPos="true" pos="0" globbing="false">
+          <Name>InputObject</Name>
+          <Attributes>
+            <string>System.Management.Automation.ParameterAttribute</string>
+          </Attributes>
+          <Aliases />
+          <Description>Задает объект, члены которого входят через конвейер.</Description>
+          <DefaultValue />
+        </ParameterDescription>
+      </Parameters>
+      <Examples>
+        <Example>
+          <Name>Example 1</Name>
+          <Cmd>Get-ADGroupMembershipHistory -Group 'Администраторы домена','Администраторы предприятия' | ConvertTo-HTMLReport</Cmd>
+          <Description>Рисуем отчет для истории участия в группах Администраторы домена,Администраторы предприятия Выводом будет служить html код.</Description>
+          <Output />
+        </Example>
+      </Examples>
+      <RelatedLinks />
+      <SupportInformation ad="false" rsat="false" ps2="false" ps3="false" ps4="false" ps5="false" wxp="false" wv="false" w7="false" w8="false" w81="false" w2k3s="false" w2k3e="false" w2k3d="false" w2k8s="false" w2k8e="false" w2k8d="false" w2k8r2s="false" w2k8r2e="false" w2k8r2d="false" w2k12s="false" w2k12d="false" w2k12r2s="false" w2k12r2d="false" />
+      <Publish>false</Publish>
+    </CmdletObject>
+    <CmdletObject verb="Get" noun="ADGroupMembershipHistory">
+      <Name>Get-ADGroupMembershipHistory</Name>
+      <GeneralHelp>
+        <Synopsis>Функция смотрит файлы с историей изменения участия объектов в группах active directory</Synopsis>
+        <Description>Результатом работы функции Get-ADGroupMembership является формирование файлов истории изменения групп active directory. Функция смотрит файлы History-&lt;Имя группы&gt;.csv После чего формирует объект для передачи функции формирования отчетов.</Description>
+        <Notes>Автор: Дубинский Евгений
+Версия: 1.0
+ДатаСоздания: 20.04.2015</Notes>
+        <InputType>Нет или Microsoft.ActiveDirectory.Management.ADGroup
+Объект группы занесен в параметр Group.</InputType>
+        <InputUrl />
+        <InputTypeDescription />
+        <ReturnType />
+        <ReturnUrl />
+        <ReturnTypeDescription />
+      </GeneralHelp>
+      <ParamSets>
+        <CommandParameterSetInfo2 Name="Group" Params="ReportFolder Group Verbose Debug ErrorAction WarningAction ErrorVariable WarningVariable OutVariable OutBuffer" />
+      </ParamSets>
+      <Syntax>
+        <string>Get-ADGroupMembershipHistory [[-ReportFolder] &lt;String&gt;] [[-Group] &lt;String[]&gt;]</string>
+      </Syntax>
+      <Parameters>
+        <ParameterDescription type="String" varLen="false" required="false" dynamic="false" pipeRemaining="false" pipe="false" pipeProp="false" isPos="true" pos="0" globbing="false">
+          <Name>ReportFolder</Name>
+          <Attributes>
+            <string>System.Management.Automation.ArgumentTypeConverterAttribute</string>
+            <string>System.Management.Automation.ParameterAttribute</string>
+          </Attributes>
+          <Aliases />
+          <Description>Путь к папке где будут лежать отчеты, а также файлы истории и текущего состояния групп.</Description>
+          <DefaultValue>$JD_ADReportFolderPath = "$env:systemdrive\ReportFolder"</DefaultValue>
+        </ParameterDescription>
+        <ParameterDescription type="String[]" varLen="true" required="false" dynamic="false" pipeRemaining="false" pipe="false" pipeProp="false" isPos="true" pos="1" globbing="false">
+          <Name>Group</Name>
+          <Attributes>
+            <string>System.Management.Automation.ArgumentTypeConverterAttribute</string>
+            <string>System.Management.Automation.AliasAttribute</string>
+            <string>System.Management.Automation.ParameterAttribute</string>
+          </Attributes>
+          <Aliases>
+            <string>DN</string>
+            <string>DistinguishedName</string>
+            <string>GUID</string>
+            <string>SID</string>
+            <string>Name</string>
+          </Aliases>
+          <Description>Задает объект группы Active Directory путем указания одного из следующих значений. Идентификатор в скобках представляет собой отображаемое имя LDAP атрибута.
+
+Различающееся имя 
+    Пример: CN=saradavisreports,OU=europe,CN=users,DC=corp,DC=contoso,DC=com 
+GUID (objectGUID) 
+    Пример: 599c3d2e-f72d-4d20-8a88-030d99495f20 
+Идентификатор безопасности (objectSid) 
+    Пример: S-1-5-21-3165297888-301567370-576410423-1103
+Имя учетной записи SAM (sAMAccountName) 
+    Пример: saradavisreports
+        
+Командлет ищет объект в пределах контекста или раздела именования по умолчанию. Если найдено несколько объектов, командлет вернет непрерывающую ошибку.</Description>
+          <DefaultValue />
+        </ParameterDescription>
+      </Parameters>
+      <Examples>
+        <Example>
+          <Name>Example 1</Name>
+          <Cmd>Get-ADGroupMembershipHistory</Cmd>
+          <Description>Получаем объекты с иторией доступа для всех групп в которых производились изменения.Получаем объекты с иторией доступа для всех групп в которых производились изменения.</Description>
+          <Output>HistorySwitch     : True
+Members           : {@{DateTime=20150409-19:36:39; State=Added; Name=Пупкин Василий Петрович; SamAccountName=pupkinv; DN=CN=Пупкин Василий Петрович,OU=Workers,OU=User 
+                    Accounts,OU=CORP,DC=corp,DC=itstuff,DC=in,DC=ua; UserSidThatMadeChanges=S-1-5-21-1447536267-604711596-3816392323-500; UserNameThatMadeChanges=Admin
+                    istrator; UserDomainThatMadeChanges=CORP}, @{DateTime=20150409-19:36:39; State=Added; Name=Петров Петр; SamAccountName=petrov.p; DN=CN=Петров Петр,
+                    OU=Workers,OU=User Accounts,OU=CORP,DC=corp,DC=itstuff,DC=in,DC=ua; UserSidThatMadeChanges=S-1-5-21-1447536267-604711596-3816392323-500; UserNameTh
+                    atMadeChanges=Administrator; UserDomainThatMadeChanges=CORP}, @{DateTime=20150409-19:36:39; State=Added; Name=Теньков Тихан; SamAccountName=tenkov.
+                    t; DN=CN=Теньков Тихан,OU=Workers,OU=User Accounts,OU=CORP,DC=corp,DC=itstuff,DC=in,DC=ua; UserSidThatMadeChanges=S-1-5-21-1447536267-604711596-381
+                    6392323-500; UserNameThatMadeChanges=Administrator; UserDomainThatMadeChanges=CORP}, @{DateTime=20150410-15:34:33; State=Removed; Name=CM01-DON; Sa
+                    mAccountName=CM01-DON$; DN=CN=CM01-DON,OU=ConfigMgr,OU=Servers,OU=CORP,DC=corp,DC=itstuff,DC=in,DC=ua; UserSidThatMadeChanges=S-1-5-21-1447536267-6
+                    04711596-3816392323-500; UserNameThatMadeChanges=Administrator; UserDomainThatMadeChanges=CORP}...}
+ObjectClass       : group
+SID               : S-1-5-21-1447536267-604711596-3816392323-1131
+HistoryCsvPath    : C:\ReportFolder\History-ACL_TEST_Full.csv
+ObjectGUID        : d1d907ae-23db-4156-90c5-d55d03d7268b
+GroupScope        : Global
+DistinguishedName : CN=ACL_TEST_Full,OU=Groups,OU=CORP,DC=corp,DC=itstuff,DC=in,DC=ua
+GroupName         : ACL_TEST_Full
+SamAccountName    : ACL_TEST_Full
+GroupCategory     : Security</Output>
+        </Example>
+        <Example>
+          <Name>Example 2</Name>
+          <Cmd>Get-ADGroupMembershipHistory -Group 'Администраторы домена','Администраторы предприятия'</Cmd>
+          <Description>Смотрим история для 2х указаных групп: 'Администраторы домена','Администраторы предприятия'</Description>
+          <Output />
+        </Example>
+        <Example>
+          <Name>Example 3</Name>
+          <Cmd>Get-ADGroupMembershipHistory -Group 'Администраторы домена','Администраторы предприятия' | ConvertTo-HTMLReport | Out-File C:\ReportFolder\index.html</Cmd>
+          <Description>Запрашиваем история для двух групп: 'Администраторы домена','Администраторы предприятия'. Затем рисуем для них web-страничку с отчетом.</Description>
+          <Output />
+        </Example>
+      </Examples>
+      <RelatedLinks />
+      <SupportInformation ad="false" rsat="false" ps2="false" ps3="false" ps4="false" ps5="false" wxp="false" wv="false" w7="false" w8="false" w81="false" w2k3s="false" w2k3e="false" w2k3d="false" w2k8s="false" w2k8e="false" w2k8d="false" w2k8r2s="false" w2k8r2e="false" w2k8r2d="false" w2k12s="false" w2k12d="false" w2k12r2s="false" w2k12r2d="false" />
+      <Publish>false</Publish>
+    </CmdletObject>
+    <CmdletObject verb="Get" noun="ADGroupMembership">
+      <Name>Get-ADGroupMembership</Name>
+      <GeneralHelp>
+        <Synopsis>Мониторинг изменения участия в группах пользователей или компьютеров.</Synopsis>
+        <Description>В результате выполнения этой функции мы получим объект или группу объектов с текущим состоянием группы. Функция необходимо запускать раз в минуту через планировик заданий, для последовательного мониторинга групп. На первом этапе фунция опросит группы и создаст файлы текущего состояния Members-&lt;Имя группы&gt;.csv, с которыми в последствии будет сравниваться текущее состояние группы. В последующих запусках и если изменения были внесены, изменения допимываются в файл History-&lt;Имя группы&gt;.csv. Также в процессе функция ищет соответствующие события для добавленных или удаленных объектов.
+
+Обратите внимание, что при первом запуске, функция создает первый срез для учасников указаных групп. Отчет при этом будет пустой. При внесении изменений в группы и последующих запусках функции, изменение накапливаются в History-&lt;Имя группы&gt;.csv и отчет будет напного информативней.</Description>
+        <Notes>Автор: Дубинский Евгений
+Версия 1.0
+ДатаСоздания: 20.04.2015
+</Notes>
+        <InputType>Нет или Microsoft.ActiveDirectory.Management.ADGroup
+Объект группы занесен в параметр Group.</InputType>
+        <InputUrl />
+        <InputTypeDescription />
+        <ReturnType>Report.ADGroupMember</ReturnType>
+        <ReturnUrl />
+        <ReturnTypeDescription />
+      </GeneralHelp>
+      <ParamSets>
+        <CommandParameterSetInfo2 Name="Group" Params="Group Server ReportFolder Credential Verbose Debug ErrorAction WarningAction ErrorVariable WarningVariable OutVariable OutBuffer" />
+        <CommandParameterSetInfo2 Name="OU" Params="SearchBase SearchScope GroupScope GroupType Server ReportFolder Credential Verbose Debug ErrorAction WarningAction ErrorVariable WarningVariable OutVariable OutBuffer" />
+      </ParamSets>
+      <Syntax>
+        <string>Get-ADGroupMembership [-Group &lt;String[]&gt;] [-Server &lt;String&gt;] [-ReportFolder &lt;String&gt;] [-Credential &lt;PSCredential&gt;]</string>
+        <string>Get-ADGroupMembership [-SearchBase &lt;String&gt;] [-SearchScope &lt;String&gt; {Base | OneLevel | Subtree} ] [-GroupScope &lt;String&gt; {Global | Universal | DomainLocal} ] [-GroupType &lt;String&gt; {Security | Distribution} ] [-Server &lt;String&gt;] [-ReportFolder &lt;String&gt;] [-Credential &lt;PSCredential&gt;]</string>
+      </Syntax>
+      <Parameters>
+        <ParameterDescription type="String[]" varLen="true" required="false" dynamic="false" pipeRemaining="false" pipe="false" pipeProp="false" isPos="false" pos="named" globbing="false">
+          <Name>Group</Name>
+          <Attributes>
+            <string>System.Management.Automation.ArgumentTypeConverterAttribute</string>
+            <string>System.Management.Automation.AliasAttribute</string>
+            <string>System.Management.Automation.ValidateNotNullAttribute</string>
+            <string>System.Management.Automation.ParameterAttribute</string>
+          </Attributes>
+          <Aliases>
+            <string>DN</string>
+            <string>DistinguishedName</string>
+            <string>GUID</string>
+            <string>SID</string>
+            <string>Name</string>
+          </Aliases>
+          <Description>Задает объект группы Active Directory путем указания одного из следующих значений. Идентификатор в скобках представляет собой отображаемое имя LDAP атрибута.
+
+Различающееся имя 
+    Пример: CN=saradavisreports,OU=europe,CN=users,DC=corp,DC=contoso,DC=com 
+GUID (objectGUID) 
+    Пример: 599c3d2e-f72d-4d20-8a88-030d99495f20 
+Идентификатор безопасности (objectSid) 
+    Пример: S-1-5-21-3165297888-301567370-576410423-1103
+Имя учетной записи SAM (sAMAccountName) 
+    Пример: saradavisreports
+        
+Командлет ищет объект в пределах контекста или раздела именования по умолчанию. Если найдено несколько объектов, командлет вернет непрерывающую ошибку.</Description>
+          <DefaultValue />
+        </ParameterDescription>
+        <ParameterDescription type="String" varLen="false" required="false" dynamic="false" pipeRemaining="false" pipe="false" pipeProp="false" isPos="false" pos="named" globbing="false">
+          <Name>Server</Name>
+          <Attributes>
+            <string>System.Management.Automation.ArgumentTypeConverterAttribute</string>
+            <string>System.Management.Automation.AliasAttribute</string>
+            <string>System.Management.Automation.ParameterAttribute</string>
+          </Attributes>
+          <Aliases>
+            <string>DomainController</string>
+            <string>Service</string>
+          </Aliases>
+          <Description>Задает используемый для подключения экземпляр доменных служб Active Directory, указывая одно из следующих значений соответствующего доменного имени или сервера каталогов. Служба может относиться к следующим категориям:  службы Active Directory облегченного доступа к каталогам, доменные службы Active Directory или снимки Active Directory.
+        Значения доменного имени:
+          Полное доменное имя
+            Примеры corp.contoso.com
+          NetBIOS-имя
+            Пример: CORP
+        
+        Значения сервера каталогов:
+          Полное имя сервера каталогов
+            Пример: corp-DC12.corp.contoso.com
+          NetBIOS-имя
+            Пример: corp-DC12
+          Полное имя сервера каталогов и порт
+            Пример: corp-DC12.corp.contoso.com:3268
+        
+        Значение параметра Server по умолчанию определяется одним из следующих методов в указанном ниже порядке.
+          - Используя значение Server из объектов, переданных по конвейеру.
+          - Используя информацию о сервере, связанную с диском поставщика Active Directory PowerShell, если запуск выполнен с этого диска.
+          - Используя домен компьютера, на котором выполняется Powershell. 
+        
+        В следующем примере показано, как указать в качестве значения параметра полное доменное имя.
+          -Server "corp.contoso.com"</Description>
+          <DefaultValue />
+        </ParameterDescription>
+        <ParameterDescription type="String" varLen="false" required="false" dynamic="false" pipeRemaining="false" pipe="false" pipeProp="false" isPos="false" pos="named" globbing="false">
+          <Name>ReportFolder</Name>
+          <Attributes>
+            <string>System.Management.Automation.ArgumentTypeConverterAttribute</string>
+            <string>System.Management.Automation.ParameterAttribute</string>
+          </Attributes>
+          <Aliases />
+          <Description>Путь к папке где будут лежать отчеты, а также файлы истории и текущего состояния групп.</Description>
+          <DefaultValue>$JD_ADReportFolderPath = "$env:systemdrive\ReportFolder"</DefaultValue>
+        </ParameterDescription>
+        <ParameterDescription type="PSCredential" varLen="false" required="false" dynamic="false" pipeRemaining="false" pipe="false" pipeProp="false" isPos="false" pos="named" globbing="false">
+          <Name>Credential</Name>
+          <Attributes>
+            <string>System.Management.Automation.ArgumentTypeConverterAttribute</string>
+            <string>System.Management.Automation.ParameterAttribute</string>
+          </Attributes>
+          <Aliases />
+          <Description>Задает параметры учетной записи пользователя для выполнения задачи. Учетными данными по умолчанию являются учетные данные текущего пользователя, вошедшего в систему, если только командлет не выполняется с диска поставщика Active Directory PowerShell. Если командлет выполняется с такого диска поставщика, в качестве значения по умолчанию используется учетная запись, связанная с диском.
+        
+        Чтобы задать этот параметр, можно ввести имя пользователя, например "User1" или "Domain01\User01", либо указать объект PSCredential. Если для этого параметра задать имя пользователя, командлет запросит пароль. 
+        
+        Кроме того, объект PSCredential можно создать с помощью скрипта или командлета Get-Credential. Затем параметру Credential можно присвоить значение объекта PSCredential. В следующем примере показано как создать учетные данные.
+          $AdminCredentials = Get-Credential "Domain01\User01"
+        
+        Ниже показано, как присвоить параметру Credential эти учетные данные.
+          -Credential $AdminCredentials
+        
+        Если для используемых учетных данных не установлены полномочия на уровне каталога для выполнения задачи, Active Directory PowerShell вернет прерывающую ошибку.</Description>
+          <DefaultValue />
+        </ParameterDescription>
+        <ParameterDescription type="String" varLen="false" required="false" dynamic="false" pipeRemaining="false" pipe="false" pipeProp="false" isPos="false" pos="named" globbing="false">
+          <Name>SearchBase</Name>
+          <Attributes>
+            <string>System.Management.Automation.ArgumentTypeConverterAttribute</string>
+            <string>System.Management.Automation.ParameterAttribute</string>
+          </Attributes>
+          <Aliases />
+          <Description>Задает путь Active Directory, в котором выполняется поиск. 
+        
+        Если командлет выполняется с диска поставщика Active Directory, в качестве значения этого параметра по умолчанию используется текущий путь диска.
+        
+        Если командлет выполняется вне диска поставщика Active Directory в отношении целевого объекта AD DS, по умолчанию для этого параметра используется значение контекста именования по умолчанию целевого домена.
+        
+        Если командлет выполняется вне диска поставщика Active Directory в отношении целевого объекта AD LDS, по умолчанию для этого параметра используется значение контекста именования по умолчанию целевого экземпляра LDS, если он задан в свойстве msDS-defaultNamingContext объекта агента служб каталогов (DSA) Active Directory (nTDSDSA) для экземпляра AD LDS.  Если для целевого экземпляра AD LDS не указан контекст именования по умолчанию, для этого параметра не устанавливается значение по умолчанию.
+        
+        В следующем примере показано, как настроить этот параметр для поиска в подразделении.
+          -SearchBase "ou=mfg,dc=noam,dc=corp,dc=contoso,dc=com" 
+        
+        Если в качестве значения параметра SearchBase указана пустая строка и имеется подключение к порту GC, выполняется поиск по всем разделам. Если в качестве значения параметра SearchBase указана пустая строка и отсутствует подключение к порту GC, будет возвращена ошибка.
+        В следующем примере показано, как присвоить этому параметру пустую строку.   -SearchBase ""</Description>
+          <DefaultValue />
+        </ParameterDescription>
+        <ParameterDescription type="String" varLen="false" required="false" dynamic="false" pipeRemaining="false" pipe="false" pipeProp="false" isPos="false" pos="named" globbing="false">
+          <Name>SearchScope</Name>
+          <Attributes>
+            <string>System.Management.Automation.ArgumentTypeConverterAttribute</string>
+            <string>System.Management.Automation.ValidateSetAttribute</string>
+            <string>System.Management.Automation.ParameterAttribute</string>
+          </Attributes>
+          <Aliases />
+          <Description>Задает область поиска по Active Directory. Возможные значения параметра:
+          Base или 0
+          OneLevel или 1
+          Subtree или 2
+        
+        Основной запрос (типа "Base") выполняет поиск только по текущему пути или в текущем объекте. Одноуровневый запрос (типа "OneLevel") выполняет поиск в непосредственных дочерних элементах этого пути или объекта. Запрос по поддереву (типа "Subtree") выполняет поиск по текущему пути или в текущем объекте и во всех дочерних элементах этого пути или объекта.
+        
+        В следующем примере показано, как настроить этот параметр для поиска по поддереву.
+          -SearchScope Subtree</Description>
+          <DefaultValue />
+        </ParameterDescription>
+        <ParameterDescription type="String" varLen="false" required="false" dynamic="false" pipeRemaining="false" pipe="false" pipeProp="false" isPos="false" pos="named" globbing="false">
+          <Name>GroupScope</Name>
+          <Attributes>
+            <string>System.Management.Automation.ArgumentTypeConverterAttribute</string>
+            <string>System.Management.Automation.ValidateSetAttribute</string>
+            <string>System.Management.Automation.ParameterAttribute</string>
+          </Attributes>
+          <Aliases />
+          <Description>Задает область поиска по Active Directory. Возможные значения параметра:
+'Global', 'Universal', 'DomainLocal'
+Этот параметр задает свойство GroupScope объекта группы указанному значению.
+Следующий пример демонстрирует способ задания этого параметра:
+-GroupScope DomainLocal</Description>
+          <DefaultValue />
+        </ParameterDescription>
+        <ParameterDescription type="String" varLen="false" required="false" dynamic="false" pipeRemaining="false" pipe="false" pipeProp="false" isPos="false" pos="named" globbing="false">
+          <Name>GroupType</Name>
+          <Attributes>
+            <string>System.Management.Automation.ArgumentTypeConverterAttribute</string>
+            <string>System.Management.Automation.ValidateSetAttribute</string>
+            <string>System.Management.Automation.ParameterAttribute</string>
+          </Attributes>
+          <Aliases />
+          <Description>Задает область поиска по Active Directory. Возможные значения параметра:
+'Security', 'Distribution'
+Этот параметр задает свойство GroupType объекта группы указанному значению.
+Следующий пример демонстрирует способ задания этого параметра:
+-GroupType Security</Description>
+          <DefaultValue />
+        </ParameterDescription>
+      </Parameters>
+      <Examples>
+        <Example>
+          <Name>Example 1</Name>
+          <Cmd>Get-ADGroupMembership</Cmd>
+          <Description>Выполнение в таком виде приведет к созданию отчета для всех групп в домене. Обаботка может занять продолжительное время.
+ПРИМЕЧАНИЕ: Группы в которые входят технические группы типа - пользователи домена (Которые вычисляются в момент запроса). Могут вызывать ошибку. Но выполнение на этом не прервется.</Description>
+          <Output />
+        </Example>
+        <Example>
+          <Name>Example 2</Name>
+          <Cmd>$Credentials = Get-Credential 'corp\Administrator'
+Get-ADGroupMembership -SearchBase 'CN=Users,DC=corp,DC=itstuff,DC=in,DC=ua' -Server 'dc01-kv.corp.itstuff.in.ua' -Credential $Credential</Cmd>
+          <Description>Создаем отчет для групп, которые распологаются внутри контейнера 'CN=Users,DC=corp,DC=itstuff,DC=in,DC=ua', выполняя запрос к серверу dc01-kv.corp.itstuff.in.ua используя учетные данные corp\Administrator</Description>
+          <Output />
+        </Example>
+        <Example>
+          <Name>Example 3</Name>
+          <Cmd>Get-ADGroupMembership -SearchBase 'OU=Groups,OU=CORP,DC=corp,DC=itstuff,DC=in,DC=ua' -SearchScope Subtree -GroupScope 'DomainLocal'</Cmd>
+          <Description>Делаем отчет для групп типа 'DomainLocal' только в узле дерева домена и вложеных узлах 'OU=Groups,OU=CORP,DC=corp,DC=itstuff,DC=in,DC=ua'</Description>
+          <Output />
+        </Example>
+        <Example>
+          <Name>Example 4</Name>
+          <Cmd>Get-ADGroupMembership -SearchBase 'OU=Groups,OU=CORP,DC=corp,DC=itstuff,DC=in,DC=ua' -SearchScope OneLevel -GroupScope 'Global'</Cmd>
+          <Description>Создаем отчет для глобальных групп  только в узле 'OU=Groups,OU=CORP,DC=corp,DC=itstuff,DC=in,DC=ua'</Description>
+          <Output />
+        </Example>
+        <Example>
+          <Name>Example 5</Name>
+          <Cmd>$Members = Get-ADGroupMembership -Group 'Администраторы домена','Администраторы предприятия'
+$Members | ConvertTo-HTMLReport | Out-File C:\ReportFolder\index.html</Cmd>
+          <Description>Создаем отчет для двух групп 'Администраторы домена','Администраторы предприятия'. После чего формируем html файл с отчетом.</Description>
+          <Output />
+        </Example>
+      </Examples>
+      <RelatedLinks />
+      <SupportInformation ad="false" rsat="false" ps2="false" ps3="false" ps4="false" ps5="false" wxp="false" wv="false" w7="false" w8="false" w81="false" w2k3s="false" w2k3e="false" w2k3d="false" w2k8s="false" w2k8e="false" w2k8d="false" w2k8r2s="false" w2k8r2e="false" w2k8r2d="false" w2k12s="false" w2k12d="false" w2k12r2s="false" w2k12r2d="false" />
+      <Publish>false</Publish>
+    </CmdletObject>
+  </Cmdlets>
+</ModuleObject>
